@@ -52,27 +52,27 @@
             </dependency>
             <dependency>
                 <groupId>liga.medical</groupId>
-                <artifactId>monitoring-core-api</artifactId>
+                <artifactId>person-service-core-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>liga.medical</groupId>
-                <artifactId>monitoring-dto</artifactId>
+                <artifactId>person-service-dto</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>liga.medical</groupId>
-                <artifactId>monitoring-utils</artifactId>
+                <artifactId>person-service-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>liga.medical</groupId>
-                <artifactId>monitoring-core</artifactId>
+                <artifactId>person-service-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>liga.medical</groupId>
-                <artifactId>migration</artifactId>
+                <artifactId>person-service-migration</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

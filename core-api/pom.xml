@@ -12,12 +12,12 @@
     </parent>
 
     <packaging>jar</packaging>
-    <artifactId>monitoring-core-api</artifactId>
+    <artifactId>person-service-core-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>liga.medical</groupId>
-            <artifactId>monitoring-dto</artifactId>
+            <artifactId>person-service-dto</artifactId>
         </dependency>
     </dependencies>
 </project>

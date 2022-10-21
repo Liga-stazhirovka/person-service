@@ -12,7 +12,7 @@
     </parent>
 
     <packaging>jar</packaging>
-    <artifactId>monitoring-core</artifactId>
+    <artifactId>person-service-core</artifactId>
 
     <dependencies>
         <dependency>
@@ -36,15 +36,15 @@
         </dependency>
         <dependency>
             <groupId>liga.medical</groupId>
-            <artifactId>monitoring-core-api</artifactId>
+            <artifactId>person-service-core-api</artifactId>
         </dependency>
         <dependency>
             <groupId>liga.medical</groupId>
-            <artifactId>monitoring-utils</artifactId>
+            <artifactId>person-service-utils</artifactId>
         </dependency>
         <dependency>
             <groupId>liga.medical</groupId>
-            <artifactId>monitoring-dto</artifactId>
+            <artifactId>person-service-dto</artifactId>
         </dependency>
 
     </dependencies>
