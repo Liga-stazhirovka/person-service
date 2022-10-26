@@ -2,12 +2,7 @@ package liga.medical.person_service.core.dao.entity;
 
 import lombok.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -21,8 +16,10 @@ public class Illness {
     private Long id;
 
     @NonNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     @Column(name = "medical_card_id")
-    private Long medicalCardId;
+    private MedicalCard medicalCard;
 
     @NonNull
     @Column(name = "type_id")

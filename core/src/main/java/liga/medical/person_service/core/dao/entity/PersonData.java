@@ -2,13 +2,9 @@ package liga.medical.person_service.core.dao.entity;
 
 import lombok.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "person_data")
@@ -40,14 +36,24 @@ public class PersonData {
     private String sex;
 
     @NonNull
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "contact_id")
-    private Long contactId;
+    private Contact contact;
 
     @NonNull
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "medical_card_id")
-    private Long medicalCardId;
+    private MedicalCard medicalCard;
 
     @NonNull
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "child_parent",
+            joinColumns = @JoinColumn(name = "parent", referencedColumnName = "parent_id"),
+            inverseJoinColumns = @JoinColumn(name = "child", referencedColumnName = "person_data_id")
+    )
     @Column(name = "parent_id")
-    private Long parentId;
+    private List<PersonData> parentId;
 }
