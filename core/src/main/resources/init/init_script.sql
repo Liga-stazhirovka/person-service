@@ -59,9 +59,9 @@ CREATE TABLE if not exists address
 );
 
 INSERT INTO medical_card (client_status, med_status, registry_dt, comment)
-VALUES ('cl_status_1', 'mes_status_1', current_date, 'comment1'),
-       ('cl_status_2', 'mes_status_2', current_date, 'comment2'),
-       ('cl_status_3', 'mes_status_3', current_date, 'comment3');
+VALUES ('1', '1', current_date, 'comment1'),
+       ('2', '2', current_date, 'comment2'),
+       ('3', '3', current_date, 'comment3');
 
 INSERT INTO contact(phone_number, email, profile_link)
 VALUES ('8-831-222333', 'email1', 'link1'),
