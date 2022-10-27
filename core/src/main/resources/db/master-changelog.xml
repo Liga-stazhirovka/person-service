@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+    <preConditions>
+        <runningAs username="postgres"/>
+    </preConditions>
+
+    <changeSet id="0" author="evgeny">
+        <tagDatabase tag="empty"/>
+    </changeSet>
+
+    <include file="db/changelog/v1.0/27-10-2022--01 changelog v1.0.xml"/>
+
+    <changeSet id="1" author="evgeny">
+        <tagDatabase tag="v1.0"/>
+    </changeSet>
+</databaseChangeLog>

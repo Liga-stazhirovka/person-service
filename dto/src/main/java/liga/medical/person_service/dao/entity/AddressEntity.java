@@ -1,6 +1,6 @@
-package liga.medical.person_service.dto.dao.entity;
+package liga.medical.person_service.dao.entity;
 
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,10 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
-
 @Entity
+@Getter
+@Builder
+@ToString
+@NoArgsConstructor()
+@AllArgsConstructor
 @Table(name = "address")
-public class Address {
+public class AddressEntity {
 
     @Id
     @Column(name = "address_id")
@@ -23,10 +27,9 @@ public class Address {
     private Long id;
 
     @NonNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn()
-    @Column(name = "contact_id")
-    private Contact contact;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contact_id")
+    private ContactEntity contactEntity;
 
     @NonNull
     @Column(name = "country_id")

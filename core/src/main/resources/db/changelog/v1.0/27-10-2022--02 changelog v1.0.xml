@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="2-v1.0" author="evgeny">
+        <comment>insert table medical_card</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table medical_card.sql"/>
+        <rollback>DELETE FROM medical_card</rollback>
+    </changeSet>
+
+    <changeSet id="3-v1.0" author="evgeny">
+        <comment>insert contact</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table contact.sql"/>
+        <rollback>DELETE FROM contact</rollback>
+    </changeSet>
+
+    <changeSet id="4-v1.0" author="evgeny">
+        <comment>insert illness</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table illness.sql"/>
+        <rollback>DELETE FROM illness</rollback>
+    </changeSet>
+
+    <changeSet id="5-v1.0" author="evgeny">
+        <comment>insert person_data</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table person_data.sql"/>
+        <rollback>DELETE FROM person_data</rollback>
+    </changeSet>
+
+    <changeSet id="6-v1.0" author="evgeny">
+        <comment>insert address</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table address.sql"/>
+        <rollback>DELETE FROM address</rollback>
+    </changeSet>
+</databaseChangeLog>

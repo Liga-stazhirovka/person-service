@@ -1,6 +1,6 @@
-package liga.medical.person_service.dto.dao.entity;
+package liga.medical.person_service.dao.entity;
 
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,8 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 @Entity
+@Getter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "contact")
-public class Contact {
+public class ContactEntity {
 
     @Id
     @Column(name = "contact_id")

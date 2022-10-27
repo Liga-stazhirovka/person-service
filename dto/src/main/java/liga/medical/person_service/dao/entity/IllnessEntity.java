@@ -1,6 +1,6 @@
-package liga.medical.person_service.dto.dao.entity;
+package liga.medical.person_service.dao.entity;
 
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,8 +15,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
+@Getter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "illness")
-public class Illness {
+public class IllnessEntity {
 
     @Id
     @Column(name = "illness_id")
@@ -24,10 +29,9 @@ public class Illness {
     private Long id;
 
     @NonNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    @Column(name = "medical_card_id")
-    private MedicalCard medicalCard;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medical_card_id")
+    private MedicalCardEntity medicalCardEntity;
 
     @NonNull
     @Column(name = "type_id")
@@ -38,7 +42,7 @@ public class Illness {
     private String heaviness;
 
     @NonNull
-    @Column(name = "appearance dttm")
+    @Column(name = "appearance_dttm")
     private Timestamp appearanceDate;
 
     @NonNull
