@@ -4,7 +4,6 @@ import liga.medical.person_service.api.repository.*;
 import liga.medical.person_service.core.service.*;
 import liga.medical.person_service.utils.mapper.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
