@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1-v1.0" author="evgeny">
+        <comment>create tables</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/create tables.sql"/>
+        <rollback>DROP TABLE medical_card, contact, address, illness, person_data</rollback>
+    </changeSet>
+
+    <include file="db/changelog/v1.0/27-10-2022--02 changelog v1.0.xml"/>
+
+</databaseChangeLog>
