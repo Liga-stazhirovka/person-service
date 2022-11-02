@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AddressResponse {
     private Long id;
-    private ContactDto contactEntity;
+    private ContactDto contactDto;
     private Long countryId;
     private String city;
     private Integer index;

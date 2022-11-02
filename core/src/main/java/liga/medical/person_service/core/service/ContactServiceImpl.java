@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,21 +29,35 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<ContactDto> getAll() {
-        return null;
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public ContactDto save(ContactDto dto) {
-        return null;
+        Optional<ContactEntity> optionalContactEntity = repository.findById(dto.getId());
+        if (optionalContactEntity.isPresent())
+            throw new NotFoundException("Contact save error! Contact already exist with ID: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public ContactDto update(ContactDto dto) {
-        return null;
+        Optional<ContactEntity> optionalContactEntity = repository.findById(dto.getId());
+        if (optionalContactEntity.isEmpty())
+            throw new NotFoundException("Contact update error! Contact by Id not found, ID: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public Long delete(Long id) {
-        return null;
+        Optional<ContactEntity> optionalContactEntity = repository.findById(id);
+        if (optionalContactEntity.isEmpty())
+            throw new NotFoundException("Contact delete error! Contact by Id not found, ID: " + id);
+        repository.delete(optionalContactEntity.get());
+        return id;
     }
 }

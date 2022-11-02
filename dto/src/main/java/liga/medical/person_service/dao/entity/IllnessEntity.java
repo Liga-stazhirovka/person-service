@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -43,7 +44,7 @@ public class IllnessEntity {
 
     @NonNull
     @Column(name = "appearance_dttm")
-    private Timestamp appearanceDate;
+    private ZonedDateTime appearanceDate;
 
     @NonNull
     @Column(name = "recovery_dt")

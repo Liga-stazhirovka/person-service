@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AddressDto {
     private Long id;
-    private ContactDto contactEntity;
+    private ContactDto contactDto;
     private Long countryId;
     private String city;
     private Integer index;

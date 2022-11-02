@@ -1,4 +1,4 @@
-package liga.medical.person_service.request.address;
+package liga.medical.person_service.request;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressSaveRequest {
+public class AddressRequest {
     @NotNull(message = "Contact ID should not be empty.")
     private Long contactId;
     @NotNull(message = "country ID should not be empty.")

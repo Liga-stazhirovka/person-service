@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,21 +29,35 @@ public class PersonDataServiceImpl implements PersonDataService {
 
     @Override
     public List<PersonDataDto> getAll() {
-        return null;
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public PersonDataDto save(PersonDataDto dto) {
-        return null;
+        Optional<PersonDataEntity> optionalPersonDataEntity = repository.findById(dto.getId());
+        if (optionalPersonDataEntity.isPresent())
+            throw new NotFoundException("Person data save error! Person data already exist with ID: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public PersonDataDto update(PersonDataDto dto) {
-        return null;
+        Optional<PersonDataEntity> optionalPersonDataEntity = repository.findById(dto.getId());
+        if (optionalPersonDataEntity.isEmpty())
+            throw new NotFoundException("Person data update error! Person data by Id not found, ID: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public Long delete(Long id) {
-        return null;
+        Optional<PersonDataEntity> optionalPersonDataEntity = repository.findById(id);
+        if (optionalPersonDataEntity.isEmpty())
+            throw new NotFoundException("Person data delete error! Person data by Id not found, ID: " + id);
+        repository.delete(optionalPersonDataEntity.get());
+        return id;
     }
 }

@@ -51,7 +51,7 @@ public class PersonDataEntity {
     private MedicalCardEntity medicalCardEntity;
 
     @NonNull
-    @Column(name = " parent_id")
+    @Column(name = "parent_id")
     private Long  parentId;
 
 }

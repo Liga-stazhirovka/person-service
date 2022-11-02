@@ -23,7 +23,7 @@ public class PersonDataResponse {
     private Date birthDay;
     private Byte age;
     private String sex;
-    private ContactDto contactEntity;
-    private MedicalCardDto medicalCardEntity;
+    private ContactDto contactDto;
+    private MedicalCardDto medicalCardDto;
     private Long parentId;
 }

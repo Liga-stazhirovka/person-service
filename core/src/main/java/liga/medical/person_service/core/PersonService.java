@@ -26,6 +26,8 @@ public class PersonService implements CommandLineRunner {
     private final IllnessRepository illnessRepository;
     private final MedicalCardRepository medicalCardRepository;
     private final PersonDataRepository personDataRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     private final AddressMapper addressMapper;
     private final ContactMapper contactMapper;
@@ -36,16 +38,8 @@ public class PersonService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        AddressServiceImpl addressService = new AddressServiceImpl(addressRepository,addressMapper);
-        ContactServiceImpl contactService = new ContactServiceImpl(contactRepository,contactMapper);
-        IllnessServiceImpl illnessService = new IllnessServiceImpl(illnessRepository,illnessMapper);
-        MedicalCardServiceImpl medicalCardService = new MedicalCardServiceImpl(medicalCardRepository,medicalCardMapper);
-        PersonDataServiceImpl personDataService = new PersonDataServiceImpl(personDataRepository,personDataMapper);
 
-        System.out.println(addressService.getById(1L));
-        System.out.println(contactService.getById(1L));
-        System.out.println(illnessService.getById(1L));
-        System.out.println(medicalCardService.getById(1L));
-        System.out.println(personDataService.getById(1L));
+
+        System.out.println(userRepository.findById(3L).get());
     }
 }

@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MedicalCardServiceImpl  implements MedicalCardService {
+public class MedicalCardServiceImpl implements MedicalCardService {
     private final MedicalCardRepository repository;
     private final MedicalCardMapper mapper;
 
@@ -28,21 +29,35 @@ public class MedicalCardServiceImpl  implements MedicalCardService {
 
     @Override
     public List<MedicalCardDto> getAll() {
-        return null;
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public MedicalCardDto save(MedicalCardDto dto) {
-        return null;
+        Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(dto.getId());
+        if (optionalMedicalCardEntity.isPresent())
+            throw new NotFoundException("Medical card save error! Medical card already exist with ID: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public MedicalCardDto update(MedicalCardDto dto) {
-        return null;
+        Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(dto.getId());
+        if (optionalMedicalCardEntity.isEmpty())
+            throw new NotFoundException("Medical card update error! Medical card by Id not found, ID: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public Long delete(Long id) {
-        return null;
+        Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(id);
+        if (optionalMedicalCardEntity.isEmpty())
+            throw new NotFoundException("Medical card delete error! Medical card by Id not found, ID: " + id);
+        repository.delete(optionalMedicalCardEntity.get());
+        return id;
     }
 }

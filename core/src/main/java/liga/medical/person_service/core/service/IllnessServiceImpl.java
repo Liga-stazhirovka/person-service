@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,21 +29,35 @@ public class IllnessServiceImpl implements IllnessService {
 
     @Override
     public List<IllnessDto> getAll() {
-        return null;
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public IllnessDto save(IllnessDto dto) {
-        return null;
+        Optional<IllnessEntity> optionalIllnessEntity = repository.findById(dto.getId());
+        if (optionalIllnessEntity.isPresent())
+            throw new NotFoundException("Illness save error! Illness already exist with Id: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return dto;
     }
 
     @Override
     public IllnessDto update(IllnessDto dto) {
-        return null;
+        Optional<IllnessEntity> optionalIllnessEntity = repository.findById(dto.getId());
+        if (optionalIllnessEntity.isEmpty())
+            throw new NotFoundException("Illness update error! Illness by Id not found, Id: " + dto.getId());
+        repository.save(mapper.toEntity(dto));
+        return mapper.toDto(optionalIllnessEntity.get());
     }
 
     @Override
     public Long delete(Long id) {
-        return null;
+        Optional<IllnessEntity> optionalIllnessEntity = repository.findById(id);
+        if (optionalIllnessEntity.isEmpty())
+            throw new NotFoundException("Illness delete error! Illness by Id not found, Id: " + id);
+        repository.delete(optionalIllnessEntity.get());
+        return id;
     }
 }

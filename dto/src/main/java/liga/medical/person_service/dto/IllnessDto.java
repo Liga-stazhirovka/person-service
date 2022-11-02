@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class IllnessDto {
     private Long id;
-    private MedicalCardDto medicalCardEntity;
+    private MedicalCardDto medicalCardDto;
     private Long typeId;
     private String heaviness;
     private Timestamp appearanceDate;

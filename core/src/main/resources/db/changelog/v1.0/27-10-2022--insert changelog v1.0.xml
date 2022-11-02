@@ -34,4 +34,22 @@
         <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table address.sql"/>
         <rollback>DELETE FROM address</rollback>
     </changeSet>
+
+    <changeSet id="7-v1.0" author="evgeny">
+        <comment>insert address</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table roles.sql"/>
+        <rollback>DELETE FROM roles</rollback>
+    </changeSet>
+
+    <changeSet id="8-v1.0" author="evgeny">
+        <comment>insert address</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table users.sql"/>
+        <rollback>DELETE FROM users</rollback>
+    </changeSet>
+
+    <changeSet id="9-v1.0" author="evgeny">
+        <comment>insert address</comment>
+        <sqlFile dbms="postgresql" path="./db/changelog/v1.0/sql/insert table users_roles.sql"/>
+        <rollback>DELETE FROM users_roles</rollback>
+    </changeSet>
 </databaseChangeLog>
