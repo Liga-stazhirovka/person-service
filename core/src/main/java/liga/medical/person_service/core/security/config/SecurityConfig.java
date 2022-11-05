@@ -1,9 +1,11 @@
 package liga.medical.person_service.core.security.config;
 
-import liga.medical.person_service.api.service.UserService;
+import liga.medical.person_service.core.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,7 +19,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
 
-    public SecurityConfig(UserService userService) {
+    @Autowired
+    public SecurityConfig(@Lazy UserService userService) {
+        this.userService = userService;
+    }
+
+    public SecurityConfig(boolean disableDefaults, UserService userService) {
+        super(disableDefaults);
         this.userService = userService;
     }
 

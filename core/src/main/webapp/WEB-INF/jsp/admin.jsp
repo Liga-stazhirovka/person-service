@@ -16,16 +16,16 @@
     <th>ID</th>
     <th>UserName</th>
     </thead>
-    <c:forEach items="${allUsers}" var="user">
+    <c:forEach items="${allUsers}" var="userEntity">
       <tr>
-        <td>${user.id}</td>
-        <td>${user.username}</td>
+        <td>${userEntity.id}</td>
+        <td>${userEntity.username}</td>
         <td>
-          <c:forEach items="${user.roles}" var="role">${role.name}; </c:forEach>
+          <c:forEach items="${userEntity.roleEntities}" var="role">${role.name}; </c:forEach>
         </td>
         <td>
           <form action="${pageContext.request.contextPath}/admin" method="post">
-            <input type="hidden" name="userId" value="${user.id}"/>
+            <input type="hidden" name="userId" value="${userEntity.id}"/>
             <input type="hidden" name="action" value="delete"/>
             <button type="submit">Delete</button>
           </form>

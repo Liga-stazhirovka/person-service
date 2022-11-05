@@ -20,11 +20,11 @@ CREATE TABLE if not exists contact
 CREATE TABLE if not exists illness
 (
     illness_id      bigserial PRIMARY KEY,
-    medical_card_id bigint    NOT NULL UNIQUE REFERENCES medical_card ON DELETE CASCADE ON UPDATE CASCADE,
-    type_id         bigint    NOT NULL,
-    heaviness       char      NOT NULL,
-    appearance_dttm timestamp NOT NULL,
-    recovery_dt     date      NOT NULL
+    medical_card_id bigint      NOT NULL UNIQUE REFERENCES medical_card ON DELETE CASCADE ON UPDATE CASCADE,
+    type_id         bigint      NOT NULL,
+    heaviness       char        NOT NULL,
+    appearance_dttm timestamptz NOT NULL,
+    recovery_dt     date
         CHECK (illness.heaviness != '' )
 
 );

@@ -1,13 +1,12 @@
 package liga.medical.person_service.core.controller;
 
-import liga.medical.person_service.api.service.MedicalCardService;
-import liga.medical.person_service.response.MedicalCardResponse;
-import liga.medical.person_service.utils.mapper.MedicalCardMapper;
+import liga.medical.person_service.core.controller.model.request.MedicalCardRequestForSave;
+import liga.medical.person_service.core.controller.model.request.MedicalCardRequestForUpdate;
+import liga.medical.person_service.core.controller.model.response.MedicalCardResponse;
+import liga.medical.person_service.core.mapper.MedicalCardMapper;
+import liga.medical.person_service.core.service.api.MedicalCardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -20,7 +19,7 @@ public class MedicalCardController {
     private final MedicalCardService service;
     private final MedicalCardMapper mapper;
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public MedicalCardResponse findById(@PathVariable @NotNull Long id) {
         return mapper.toResponse(service.getById(id));
     }
@@ -30,5 +29,20 @@ public class MedicalCardController {
         return service.getAll().stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/add")
+    public MedicalCardResponse add(@RequestBody MedicalCardRequestForSave request) {
+        return mapper.toResponse(service.save(mapper.toDomain(request)));
+    }
+
+    @PutMapping("/update")
+    public MedicalCardResponse update(@RequestBody MedicalCardRequestForUpdate request) {
+        return mapper.toResponse(service.update(mapper.toDomain(request)));
+    }
+
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable @NotNull Long id) {
+        return service.delete(id);
     }
 }

@@ -1,11 +1,13 @@
 package liga.medical.person_service.core.service;
 
-import liga.medical.person_service.api.repository.MedicalCardRepository;
-import liga.medical.person_service.api.service.MedicalCardService;
+import liga.medical.person_service.core.domain.MedicalCard;
 import liga.medical.person_service.core.exceptions.NotFoundException;
-import liga.medical.person_service.dao.entity.MedicalCardEntity;
-import liga.medical.person_service.dto.MedicalCardDto;
-import liga.medical.person_service.utils.mapper.MedicalCardMapper;
+import liga.medical.person_service.core.mapper.MedicalCardMapper;
+import liga.medical.person_service.core.repository.MedicalCardRepository;
+import liga.medical.person_service.core.repository.entity.entity.AddressEntity;
+import liga.medical.person_service.core.repository.entity.entity.MedicalCardEntity;
+import liga.medical.person_service.core.service.api.MedicalCardService;
+import liga.medical.person_service.core.service.dto.MedicalCardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,7 @@ public class MedicalCardServiceImpl implements MedicalCardService {
     public MedicalCardDto getById(Long id) {
         Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(id);
         if (optionalMedicalCardEntity.isEmpty())
-            throw new NotFoundException("Medical card by Id not found, ID: " + id);
+            throw new NotFoundException("Medical card by Id not fount, Id: " + id);
         return mapper.toDto(optionalMedicalCardEntity.get());
     }
 
@@ -35,29 +37,40 @@ public class MedicalCardServiceImpl implements MedicalCardService {
     }
 
     @Override
-    public MedicalCardDto save(MedicalCardDto dto) {
-        Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(dto.getId());
-        if (optionalMedicalCardEntity.isPresent())
-            throw new NotFoundException("Medical card save error! Medical card already exist with ID: " + dto.getId());
-        repository.save(mapper.toEntity(dto));
-        return dto;
+    public MedicalCardDto save(MedicalCard medicalCard) {
+        return mapper.toDto(repository.save(mapper.toEntity(buildMedicalCardDtoForSave(medicalCard))));
     }
 
     @Override
-    public MedicalCardDto update(MedicalCardDto dto) {
-        Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(dto.getId());
-        if (optionalMedicalCardEntity.isEmpty())
-            throw new NotFoundException("Medical card update error! Medical card by Id not found, ID: " + dto.getId());
-        repository.save(mapper.toEntity(dto));
-        return dto;
+    public MedicalCardDto update(MedicalCard medicalCard) {
+        return mapper.toDto(repository.save(mapper.toEntity(buildMedicalCardDtoForUpdate(medicalCard))));
     }
 
     @Override
     public Long delete(Long id) {
         Optional<MedicalCardEntity> optionalMedicalCardEntity = repository.findById(id);
         if (optionalMedicalCardEntity.isEmpty())
-            throw new NotFoundException("Medical card delete error! Medical card by Id not found, ID: " + id);
+            throw new NotFoundException("Medical card delete error! Medical card by Id not fount, Id: " + id);
         repository.delete(optionalMedicalCardEntity.get());
         return id;
+    }
+
+    private MedicalCardDto buildMedicalCardDtoForSave(MedicalCard medicalCard) {
+        return MedicalCardDto.builder()
+                .clientStatus(medicalCard.getClientStatus())
+                .medStatus(medicalCard.getMedStatus())
+                .registryDate(medicalCard.getRegistryDate())
+                .comment(medicalCard.getComment())
+                .build();
+    }
+
+    private MedicalCardDto buildMedicalCardDtoForUpdate(MedicalCard medicalCard) {
+        return MedicalCardDto.builder()
+                .id(medicalCard.getId())
+                .clientStatus(medicalCard.getClientStatus())
+                .medStatus(medicalCard.getMedStatus())
+                .registryDate(medicalCard.getRegistryDate())
+                .comment(medicalCard.getComment())
+                .build();
     }
 }

@@ -1,15 +1,14 @@
 package liga.medical.person_service.core.service;
 
-import liga.medical.person_service.api.repository.AddressRepository;
-import liga.medical.person_service.api.service.AddressService;
-import liga.medical.person_service.api.service.ContactService;
+import liga.medical.person_service.core.domain.Address;
 import liga.medical.person_service.core.exceptions.NotFoundException;
-import liga.medical.person_service.dao.entity.AddressEntity;
-import liga.medical.person_service.dto.AddressDto;
-import liga.medical.person_service.dto.ContactDto;
-import liga.medical.person_service.request.AddressRequest;
-import liga.medical.person_service.utils.mapper.AddressMapper;
-import liga.medical.person_service.utils.mapper.ContactMapper;
+import liga.medical.person_service.core.mapper.AddressMapper;
+import liga.medical.person_service.core.repository.AddressRepository;
+import liga.medical.person_service.core.repository.entity.entity.AddressEntity;
+import liga.medical.person_service.core.service.api.AddressService;
+import liga.medical.person_service.core.service.api.ContactService;
+import liga.medical.person_service.core.service.dto.AddressDto;
+import liga.medical.person_service.core.service.dto.ContactDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final ContactService contactService;
     private final AddressMapper addressMapper;
-    private final ContactMapper contactMapper;
 
     @Override
     public AddressDto getById(Long id) {
@@ -41,31 +39,16 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto save(AddressDto dto) {
-        Optional<AddressEntity> optionalAddressEntity = addressRepository.findById(dto.getId());
-        if (optionalAddressEntity.isPresent())
-            throw new NotFoundException("Address save error, Address already exist with ID: " + dto.getId());
-        addressRepository.save(addressMapper.toEntity(dto));
-        return dto;
+    public AddressDto save(Address address) {
+        return addressMapper.toDto(addressRepository.save(addressMapper.toEntity(findContactAndBuildAddressDtoForSave(address))));
     }
 
     @Override
-    public AddressDto handleThenSave(AddressRequest addressRequest) {
-        return save(findContactAndBuildAddressDto(addressRequest));
-    }
-
-    @Override
-    public AddressDto update(AddressDto dto) {
-        Optional<AddressEntity> optionalAddressEntity = addressRepository.findById(dto.getId());
+    public AddressDto update(Address address) {
+        Optional<AddressEntity> optionalAddressEntity = addressRepository.findById(address.getId());
         if (optionalAddressEntity.isEmpty())
-            throw new NotFoundException("Address update error! Address by Id not fount, Id: " + dto.getId());
-        addressRepository.save(addressMapper.toEntity(dto));
-        return dto;
-    }
-
-    @Override
-    public AddressDto handleThenUpdate(AddressRequest addressRequest) {
-        return update(findContactAndBuildAddressDto(addressRequest));
+            throw new NotFoundException("Address update error! Address by Id not fount, Id: " + address.getId());
+        return addressMapper.toDto(addressRepository.save(addressMapper.toEntity(findContactAndBuildAddressDtoForUpdate(address))));
     }
 
     @Override
@@ -77,16 +60,30 @@ public class AddressServiceImpl implements AddressService {
         return id;
     }
 
-    private AddressDto findContactAndBuildAddressDto(AddressRequest request) {
-        ContactDto contactDto = contactService.getById(request.getContactId());
+    private AddressDto findContactAndBuildAddressDtoForUpdate(Address address) {
+        ContactDto contactDto = contactService.getById(address.getContactId());
+        return AddressDto.builder()
+                .id(address.getId())
+                .contactDto(contactDto)
+                .countryId(address.getCountryId())
+                .city(address.getCity())
+                .index(address.getIndex())
+                .street(address.getStreet())
+                .building(address.getBuilding())
+                .flat(address.getFlat())
+                .build();
+    }
+
+    private AddressDto findContactAndBuildAddressDtoForSave(Address address) {
+        ContactDto contactDto = contactService.getById(address.getContactId());
         return AddressDto.builder()
                 .contactDto(contactDto)
-                .countryId(request.getCountryId())
-                .city(request.getCity())
-                .index(request.getIndex())
-                .street(request.getStreet())
-                .building(request.getBuilding())
-                .flat(request.getFlat())
+                .countryId(address.getCountryId())
+                .city(address.getCity())
+                .index(address.getIndex())
+                .street(address.getStreet())
+                .building(address.getBuilding())
+                .flat(address.getFlat())
                 .build();
     }
 }
