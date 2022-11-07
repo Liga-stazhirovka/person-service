@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table (name = "users")
+@Table(name = "users")
 public class UserEntity implements UserDetails {
 
     @Id
@@ -38,7 +38,7 @@ public class UserEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "users_id")},
             inverseJoinColumns = @JoinColumn(name = "roles_id"))

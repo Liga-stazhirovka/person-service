@@ -1,11 +1,13 @@
 package liga.medical.person_service.core.security.config;
 
+import liga.medical.person_service.core.service.api.RoleService;
 import liga.medical.person_service.core.service.api.UserService;
-import lombok.RequiredArgsConstructor;
+import liga.medical.person_service.core.service.dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,15 +20,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService) {
+    public SecurityConfig(@Lazy UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
-    public SecurityConfig(boolean disableDefaults, UserService userService) {
+    public SecurityConfig(boolean disableDefaults, UserService userService, RoleService roleService) {
         super(disableDefaults);
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -36,19 +41,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для не зарегистрированных пользователей
                 .antMatchers("/registration").not().fullyAuthenticated()
                 //Доступ только для пользователей с ролью Администратор
-                .antMatchers("/address/**").hasRole("ADMIN")
-                .antMatchers("/contact/**").hasRole("USER")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                //Доступ для пользователей с любыми ролями
+                .antMatchers(HttpMethod.GET, "/**").hasAnyAuthority(roleService.getAll().stream().map(RoleDto::getName).toArray(String[]::new))
+                //Доступ для Админа
+                .antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")
                 //Доступ разрешен всем пользователей
                 .antMatchers("/", "/resources/**").permitAll()
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
                 //Настройка для входа в систему
-//                .formLogin()
-//                .loginPage("/login")
-//                //Перенаправление на главную страницу после успешного входа
-//                .defaultSuccessUrl("/")
-                //               .permitAll()
                 .httpBasic()
                 .and()
                 .logout()

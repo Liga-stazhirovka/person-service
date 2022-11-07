@@ -1,13 +1,10 @@
 package liga.medical.person_service.core.controller;
 
-import liga.medical.person_service.core.controller.model.request.AddressRequestForSave;
-import liga.medical.person_service.core.controller.model.request.AddressRequestForUpdate;
 import liga.medical.person_service.core.controller.model.request.PersonDataRequestForSave;
 import liga.medical.person_service.core.controller.model.request.PersonDataRequestForUpdate;
-import liga.medical.person_service.core.controller.model.response.AddressResponse;
-import liga.medical.person_service.core.service.api.PersonDataService;
 import liga.medical.person_service.core.controller.model.response.PersonDataResponse;
 import liga.medical.person_service.core.mapper.PersonDataMapper;
+import liga.medical.person_service.core.service.api.PersonDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

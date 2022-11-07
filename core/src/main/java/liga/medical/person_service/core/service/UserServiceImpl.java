@@ -2,6 +2,7 @@ package liga.medical.person_service.core.service;
 
 import liga.medical.person_service.core.domain.User;
 import liga.medical.person_service.core.exceptions.IllegalArgumentException;
+import liga.medical.person_service.core.exceptions.IllegalStateException;
 import liga.medical.person_service.core.exceptions.NotFoundException;
 import liga.medical.person_service.core.mapper.RoleMapper;
 import liga.medical.person_service.core.mapper.UserMapper;
@@ -16,14 +17,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -90,10 +90,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(User user) {
-        Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(user.getEmail());
+        String email = user.getEmail().toLowerCase(Locale.ROOT).trim();
+        Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
         if (optionalUserEntity.isPresent())
-            throw new IllegalArgumentException("User save error! User already exist by email: " + user.getEmail());
-
+            throw new IllegalStateException("User save error! User already exist by email: " + email);
         return userMapper.toDto(userRepository.save(userMapper.toEntity(findRolesAndBuildUserDtoForSave(user))));
     }
 
@@ -103,36 +103,40 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto findRolesAndBuildUserDtoForSave(User user) {
-        if (!isContainsAllRolesByUser(user))
-            throw new IllegalArgumentException("Save user error! User roles not found, roles: " + user.getRoles());
+        checkDuplicatesUser(user);
 
-        Set<RoleDto> userRolesDto = user.getRoles().stream()
-                .map(roleMapper::toDto)
-                .collect(Collectors.toSet());
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .email(user.getEmail())
+                .email(user.getEmail().toLowerCase(Locale.ROOT).trim())
                 .password(encoder.encode(user.getPassword()))
-                .roles(userRolesDto)
+                .roles(getUserRolesFullModel(user))
                 .build();
     }
 
     private UserDto findRolesAndBuildUserDtoForUpdate(User user) {
-        if (!isContainsAllRolesByUser(user))
-            throw new IllegalArgumentException("Save user error! User roles not found, roles: " + user.getRoles());
+        checkDuplicatesUser(user);
 
-        Set<RoleDto> userRolesDto = user.getRoles().stream()
-                .map(roleMapper::toDto)
-                .collect(Collectors.toSet());
         return UserDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .email(user.getEmail())
+                .email(user.getEmail().toLowerCase(Locale.ROOT).trim())
                 .password(encoder.encode(user.getPassword()))
-                .roles(userRolesDto)
+                .roles(getUserRolesFullModel(user))
                 .build();
+    }
+
+    private void checkDuplicatesUser(User user) {
+        if (!isContainsAllRolesByUser(user))
+            throw new IllegalArgumentException("Save user error! User roles not found, roles: " + user.getRoles());
+    }
+
+    private Set<RoleDto> getUserRolesFullModel(User user) {
+        Set<RoleDto> userRolesDto = new HashSet<>();
+        user.getRoles().forEach(role -> userRolesDto
+                .add(new RoleDto(roleRepository.findByName(role.getName()).get().getId(), role.getName())));
+        return userRolesDto;
     }
 
     private boolean isContainsAllRolesByUser(User user) {

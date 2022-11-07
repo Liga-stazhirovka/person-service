@@ -8,6 +8,8 @@ import java.util.List;
 public interface RoleService {
     RoleDto getById(Long id);
 
+    RoleDto getByName(String name);
+
     List<RoleDto> getAll();
 
     RoleDto save(Role role);

@@ -3,6 +3,7 @@ package liga.medical.person_service.core;
 import liga.medical.person_service.core.controller.AddressController;
 import liga.medical.person_service.core.controller.IllnessController;
 import liga.medical.person_service.core.controller.PersonDataController;
+import liga.medical.person_service.core.controller.model.request.AddressRequestForSave;
 import liga.medical.person_service.core.mapper.*;
 import liga.medical.person_service.core.repository.*;
 import liga.medical.person_service.core.service.AddressServiceImpl;
@@ -47,9 +48,6 @@ public class PersonService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        System.out.println(userService.save(new User(
-//                1L, "USERNAME", "USERLASTNAME", "EMAIL",
-//                "$2a$12$uCxnKLp3cIO9x8Nwt6z8/etm/MR3lDDUg5CTgz9hjNRT5QFFf44Ry",
-//                Set.of(new Role(1L, "ADMIN"), new Role(2L, "USER")))));
+        addressController.add(new AddressRequestForSave(1L,555L,"555",555,"555","555","555"));
     }
 }

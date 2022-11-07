@@ -24,6 +24,14 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper mapper;
 
     @Override
+    public RoleDto getByName(String name) {
+        Optional<RoleEntity> optionalRoleEntity = repository.findByName(name);
+        if (optionalRoleEntity.isEmpty())
+            throw new NotFoundException("Role by name not fount, name: " + name);
+        return mapper.toDto(optionalRoleEntity.get());
+    }
+
+    @Override
     public RoleDto getById(Long id) {
         Optional<RoleEntity> optionalRoleEntity = repository.findById(id);
         if (optionalRoleEntity.isEmpty())
