@@ -1,13 +1,12 @@
 package liga.medical.person_service.core.controller;
 
-import liga.medical.person_service.api.service.ContactService;
-import liga.medical.person_service.response.ContactResponse;
-import liga.medical.person_service.utils.mapper.ContactMapper;
+import liga.medical.person_service.core.controller.model.request.ContactRequestForSave;
+import liga.medical.person_service.core.controller.model.request.ContactRequestForUpdate;
+import liga.medical.person_service.core.controller.model.response.ContactResponse;
+import liga.medical.person_service.core.mapper.ContactMapper;
+import liga.medical.person_service.core.service.api.ContactService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -20,7 +19,7 @@ public class ContactController {
     private final ContactService service;
     private final ContactMapper mapper;
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ContactResponse findById(@PathVariable @NotNull Long id) {
         return mapper.toResponse(service.getById(id));
     }
@@ -30,5 +29,20 @@ public class ContactController {
         return service.getAll().stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/add")
+    public ContactResponse add(@RequestBody ContactRequestForSave request) {
+        return mapper.toResponse(service.save(mapper.toDomain(request)));
+    }
+
+    @PutMapping("/update")
+    public ContactResponse update(@RequestBody ContactRequestForUpdate request) {
+        return mapper.toResponse(service.update(mapper.toDomain(request)));
+    }
+
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable @NotNull Long id) {
+        return service.delete(id);
     }
 }

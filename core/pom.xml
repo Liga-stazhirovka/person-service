@@ -20,6 +20,10 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -44,7 +48,16 @@
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>${lombok-mapstruct-binding.version}</version>
+        </dependency>
 
         <dependency>
             <!--        Эта зависимость тянет компоненты спринга их тоже нужно сканировать-->
@@ -67,7 +80,7 @@
     </dependencies>
 
     <build>
-<!--        <finalName>analyzer-service</finalName>-->
+        <!--        <finalName>analyzer-service</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

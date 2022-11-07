@@ -1,20 +1,24 @@
 package liga.medical.person_service.core;
 
-import liga.medical.person_service.api.repository.*;
-import liga.medical.person_service.core.service.*;
-import liga.medical.person_service.utils.mapper.*;
+import liga.medical.person_service.core.controller.AddressController;
+import liga.medical.person_service.core.controller.IllnessController;
+import liga.medical.person_service.core.controller.PersonDataController;
+import liga.medical.person_service.core.controller.model.request.AddressRequestForSave;
+import liga.medical.person_service.core.mapper.*;
+import liga.medical.person_service.core.repository.*;
+import liga.medical.person_service.core.service.AddressServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@RequiredArgsConstructor
+import java.util.Set;
+
+//@EnableJpaRepositories("liga.medical.person_service.api.repository")
+//@EntityScan("liga.medical.person_service.dao.entity")
 @SpringBootApplication
-@EnableJpaRepositories("liga.medical.person_service.api.repository")
-@EntityScan("liga.medical.person_service.dao.entity")
+@RequiredArgsConstructor
 @ComponentScan(basePackages = {"liga.medical.person_service", "liga.medical.common.service"})
 public class PersonService implements CommandLineRunner {
     public static void main(String[] args) {
@@ -26,6 +30,8 @@ public class PersonService implements CommandLineRunner {
     private final IllnessRepository illnessRepository;
     private final MedicalCardRepository medicalCardRepository;
     private final PersonDataRepository personDataRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     private final AddressMapper addressMapper;
     private final ContactMapper contactMapper;
@@ -33,19 +39,15 @@ public class PersonService implements CommandLineRunner {
     private final MedicalCardMapper medicalCardMapper;
     private final PersonDataMapper personDataMapper;
 
+    private final AddressController addressController;
+    private final IllnessController illnessController;
+    private final PersonDataController personDataController;
+
+    private final AddressServiceImpl addressService;
+
 
     @Override
     public void run(String... args) throws Exception {
-        AddressServiceImpl addressService = new AddressServiceImpl(addressRepository,addressMapper);
-        ContactServiceImpl contactService = new ContactServiceImpl(contactRepository,contactMapper);
-        IllnessServiceImpl illnessService = new IllnessServiceImpl(illnessRepository,illnessMapper);
-        MedicalCardServiceImpl medicalCardService = new MedicalCardServiceImpl(medicalCardRepository,medicalCardMapper);
-        PersonDataServiceImpl personDataService = new PersonDataServiceImpl(personDataRepository,personDataMapper);
-
-        System.out.println(addressService.getById(1L));
-        System.out.println(contactService.getById(1L));
-        System.out.println(illnessService.getById(1L));
-        System.out.println(medicalCardService.getById(1L));
-        System.out.println(personDataService.getById(1L));
+        addressController.add(new AddressRequestForSave(1L,555L,"555",555,"555","555","555"));
     }
 }
