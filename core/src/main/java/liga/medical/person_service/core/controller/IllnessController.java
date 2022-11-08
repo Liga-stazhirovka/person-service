@@ -6,12 +6,14 @@ import liga.medical.person_service.core.controller.model.response.IllnessRespons
 import liga.medical.person_service.core.mapper.IllnessMapper;
 import liga.medical.person_service.core.service.api.IllnessService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/illness")
@@ -21,28 +23,38 @@ public class IllnessController {
 
     @GetMapping("/{id}")
     public IllnessResponse findById(@PathVariable @NotNull Long id) {
-        return mapper.toResponse(service.getById(id));
+        IllnessResponse illnessResponse = mapper.toResponse(service.getById(id));
+        log.info("Болезнь по ID: " + id + " получена");
+        return illnessResponse;
     }
 
     @GetMapping("/all")
     public List<IllnessResponse> getAll() {
-        return service.getAll().stream()
+        List<IllnessResponse> illnessResponses = service.getAll().stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
+        log.info("Получены все болезни");
+        return illnessResponses;
     }
 
     @PostMapping("/add")
     public IllnessResponse add(@RequestBody IllnessRequestForSave request) {
-        return mapper.toResponse(service.save(mapper.toDomain(request)));
+        IllnessResponse illnessResponse = mapper.toResponse(service.save(mapper.toDomain(request)));
+        log.info("Болезнь добавлена: " + request);
+        return illnessResponse;
     }
 
     @PutMapping("/update")
     public IllnessResponse update(@RequestBody IllnessRequestForUpdate request) {
-        return mapper.toResponse(service.update(mapper.toDomain(request)));
+        IllnessResponse illnessResponse = mapper.toResponse(service.update(mapper.toDomain(request)));
+        log.info("Болезнь с ID: " + request.getId() + " обновлена: " + request);
+        return illnessResponse;
     }
 
     @DeleteMapping("/{id}")
     public Long delete(@PathVariable @NotNull Long id) {
-        return service.delete(id);
+        Long deleteId = service.delete(id);
+        log.info("Болезнь удалена, ID: " + id);
+        return deleteId;
     }
 }

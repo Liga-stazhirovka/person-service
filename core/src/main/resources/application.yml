@@ -16,5 +16,21 @@ spring:
     enabled: true
     change-log: db/master-changelog.xml
     default-schema: public
+
 server:
   port: 8083
+
+logging:
+  pattern:
+    console: "%d{ISO8601} %green([%thread]) %highlight(%-5level) (%logger{50} Method: '%method' on line %line - (%msg%n)  %ex{full}"
+    rolling-file-name: log/Person-service-%d{yyyy-MM-dd}.%i.log
+  level:
+    root: info
+    org.springframework.web: ERROR
+    org.hibernate: ERROR
+  file:
+    max-size: 10MB
+    total-size-cap: 100MB
+    max-history: 30
+    clean-history-on-start: true
+    name: log/Person-service-logs.log

@@ -6,12 +6,14 @@ import liga.medical.person_service.core.controller.model.response.MedicalCardRes
 import liga.medical.person_service.core.mapper.MedicalCardMapper;
 import liga.medical.person_service.core.service.api.MedicalCardService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/medical-card")
@@ -21,28 +23,38 @@ public class MedicalCardController {
 
     @GetMapping("/{id}")
     public MedicalCardResponse findById(@PathVariable @NotNull Long id) {
-        return mapper.toResponse(service.getById(id));
+        MedicalCardResponse medicalCardResponse = mapper.toResponse(service.getById(id));
+        log.info("Медицинская карта получена по ID: " + id);
+        return medicalCardResponse;
     }
 
     @GetMapping("/all")
     public List<MedicalCardResponse> getAll() {
-        return service.getAll().stream()
+        List<MedicalCardResponse> medicalCardResponses = service.getAll().stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
+        log.info("Получены все медицинские карты");
+        return medicalCardResponses;
     }
 
     @PostMapping("/add")
     public MedicalCardResponse add(@RequestBody MedicalCardRequestForSave request) {
-        return mapper.toResponse(service.save(mapper.toDomain(request)));
+        MedicalCardResponse medicalCardResponse = mapper.toResponse(service.save(mapper.toDomain(request)));
+        log.info("Добавлена медицинская карта: " + request);
+        return medicalCardResponse;
     }
 
     @PutMapping("/update")
     public MedicalCardResponse update(@RequestBody MedicalCardRequestForUpdate request) {
-        return mapper.toResponse(service.update(mapper.toDomain(request)));
+        MedicalCardResponse medicalCardResponse = mapper.toResponse(service.update(mapper.toDomain(request)));
+        log.info("Медицинская карта с ID: " + request.getId() + " обновлена: " + request);
+        return medicalCardResponse;
     }
 
     @DeleteMapping("/{id}")
     public Long delete(@PathVariable @NotNull Long id) {
-        return service.delete(id);
+        Long deleteId = service.delete(id);
+        log.info("Медицинская карта удалена, ID: " + id);
+        return deleteId;
     }
 }
