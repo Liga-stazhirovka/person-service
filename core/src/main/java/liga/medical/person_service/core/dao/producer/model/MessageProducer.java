@@ -1,6 +1,6 @@
 package liga.medical.person_service.core.dao.producer.model;
 
-import liga.medical.person_service.core.service.message_status.MessageStatus;
+import liga.medical.person_service.core.domain.message_status.MessageStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
