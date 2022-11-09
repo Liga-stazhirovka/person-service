@@ -4,14 +4,12 @@ import liga.medical.person_service.core.domain.Role;
 import liga.medical.person_service.core.exceptions.IllegalArgumentException;
 import liga.medical.person_service.core.exceptions.NotFoundException;
 import liga.medical.person_service.core.mapper.RoleMapper;
-import liga.medical.person_service.core.repository.RoleRepository;
-import liga.medical.person_service.core.repository.entity.entity.AddressEntity;
-import liga.medical.person_service.core.repository.entity.entity.RoleEntity;
+import liga.medical.person_service.core.dao.repository.RoleRepository;
+import liga.medical.person_service.core.dao.repository.entity.entity.RoleEntity;
 import liga.medical.person_service.core.service.api.RoleService;
 import liga.medical.person_service.core.service.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Optional;

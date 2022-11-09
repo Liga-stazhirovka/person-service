@@ -1,11 +1,11 @@
 package liga.medical.person_service.core.mapper;
 
-import liga.medical.person_service.core.controller.model.response.AddressResponse;
+import liga.medical.person_service.core.view.rest.controller.model.response.AddressResponse;
 import liga.medical.person_service.core.domain.Address;
-import liga.medical.person_service.core.repository.entity.entity.AddressEntity;
+import liga.medical.person_service.core.dao.repository.entity.entity.AddressEntity;
 import liga.medical.person_service.core.service.dto.AddressDto;
-import liga.medical.person_service.core.controller.model.request.AddressRequestForSave;
-import liga.medical.person_service.core.controller.model.request.AddressRequestForUpdate;
+import liga.medical.person_service.core.view.rest.controller.model.request.AddressRequestForSave;
+import liga.medical.person_service.core.view.rest.controller.model.request.AddressRequestForUpdate;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

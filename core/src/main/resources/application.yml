@@ -16,13 +16,18 @@ spring:
     enabled: true
     change-log: db/master-changelog.xml
     default-schema: public
+  rabbitmq:
+    host: 127.0.0.1
+    password: guest
+    username: guest
+    port: 5672
 
 server:
   port: 8083
 
 logging:
   pattern:
-    console: "%d{ISO8601} %green([%thread]) %highlight(%-5level) (%logger{50} Method: '%method' on line %line - (%msg%n)  %ex{full}"
+    file: "%d{ISO8601} [%thread] [%-5level] Class [%class{50}] Method: [%method] on line %line : %msg%n  %ex{full}"
     rolling-file-name: log/Person-service-%d{yyyy-MM-dd}.%i.log
   level:
     root: info

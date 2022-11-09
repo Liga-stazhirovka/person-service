@@ -1,19 +1,27 @@
 package liga.medical.person_service.core;
 
-import liga.medical.person_service.core.controller.AddressController;
-import liga.medical.person_service.core.controller.IllnessController;
-import liga.medical.person_service.core.controller.PersonDataController;
-import liga.medical.person_service.core.controller.model.request.AddressRequestForSave;
-import liga.medical.person_service.core.mapper.*;
-import liga.medical.person_service.core.repository.*;
+import liga.medical.person_service.core.dao.repository.AddressRepository;
+import liga.medical.person_service.core.dao.repository.ContactRepository;
+import liga.medical.person_service.core.dao.repository.IllnessRepository;
+import liga.medical.person_service.core.dao.repository.MedicalCardRepository;
+import liga.medical.person_service.core.dao.repository.PersonDataRepository;
+import liga.medical.person_service.core.dao.repository.RoleRepository;
+import liga.medical.person_service.core.dao.repository.UserRepository;
+import liga.medical.person_service.core.mapper.AddressMapper;
+import liga.medical.person_service.core.mapper.ContactMapper;
+import liga.medical.person_service.core.mapper.IllnessMapper;
+import liga.medical.person_service.core.mapper.MedicalCardMapper;
+import liga.medical.person_service.core.mapper.PersonDataMapper;
 import liga.medical.person_service.core.service.AddressServiceImpl;
+import liga.medical.person_service.core.view.rest.controller.AddressController;
+import liga.medical.person_service.core.view.rest.controller.IllnessController;
+import liga.medical.person_service.core.view.rest.controller.PersonDataController;
+import liga.medical.person_service.core.view.rest.controller.model.request.AddressRequestForSave;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-
-import java.util.Set;
 
 //@EnableJpaRepositories("liga.medical.person_service.api.repository")
 //@EntityScan("liga.medical.person_service.dao.entity")

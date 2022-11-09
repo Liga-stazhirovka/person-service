@@ -1,7 +1,6 @@
 package liga.medical.person_service.core.service.api;
 
 import liga.medical.person_service.core.domain.User;
-import liga.medical.person_service.core.repository.entity.entity.UserEntity;
 import liga.medical.person_service.core.service.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
